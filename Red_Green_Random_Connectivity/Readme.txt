@@ -1,9 +1,9 @@
-Формат входного файла следующий:
+п»їР¤РѕСЂРјР°С‚ РІС…РѕРґРЅРѕРіРѕ С„Р°Р№Р»Р° СЃР»РµРґСѓСЋС‰РёР№:
 5 6 // |V|, |E|
 1 5 // start, finish
 R // initial state (R=Red, G=Green)
 0.2 // probability of state changing
-// Описание дуг в формате <from>, <to>, <color>
+// РћРїРёСЃР°РЅРёРµ РґСѓРі РІ С„РѕСЂРјР°С‚Рµ <from>, <to>, <color>
 // <color> = {R=Red, G=Green, B=Black}
 1 2 R 
 2 3 B
