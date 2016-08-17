@@ -23,8 +23,9 @@ int main() {
 	int nV, nE, s, f;
 	Color initState; // R/G
 	double p; // Probability of state changing
-	ifstream textGr("graph.txt");
+	ifstream textGr("in.txt");
 
+	// Reading graph from file
 	char chState;
 	textGr >> nV >> nE >> s >> f >> chState >> p;
 	--s, --f;
@@ -38,12 +39,15 @@ int main() {
 	}
 	textGr.close();
 
+	// initializing dynamic table
 	vector<double[2]> prob(nV);
 	for (int i = 0; i < nV; ++i) {
 		prob[i][RED] = prob[i][GREEN] = 0;
 	}
 	prob[f][RED] = prob[f][GREEN] = 1;
 
+	// Bellman-Ford algorithm modification 
+	// Relaxing dp-table (nV-1) times 
 	for (int i = 1; i < nV; ++i) {
 		for (int j = 0; j < nV; ++j) {
 			for (auto edge : gr[j]) {
