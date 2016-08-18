@@ -20,9 +20,10 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="graph.txt">
+    <Text Include="out.txt" />
+    <Text Include="Readme.txt" />
+    <Text Include="in.txt">
       <Filter>Файлы ресурсов</Filter>
     </Text>
-    <Text Include="out.txt" />
   </ItemGroup>
 </Project>

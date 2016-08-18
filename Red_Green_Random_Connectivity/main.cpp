@@ -20,6 +20,7 @@ Color getColor(char c) {
 }
 
 int main() {
+	const double eps = 1e-4;
 	int nV, nE, s, f;
 	Color initState; // R/G
 	double p; // Probability of state changing
@@ -47,29 +48,37 @@ int main() {
 	prob[f][RED] = prob[f][GREEN] = 1;
 
 	// Bellman-Ford algorithm modification 
-	// Relaxing dp-table (nV-1) times 
-	for (int i = 1; i < nV; ++i) {
-		for (int j = 0; j < nV; ++j) {
-			for (auto edge : gr[j]) {
-				int to = edge.first;
-				Color col = edge.second;
+	int times = nV - 1;
+	double ores = 2, res;
+	while (true) {
+		for (int i = times; i > 0; --i) {
+			for (int j = 0; j < nV; ++j) {
+				for (auto edge : gr[j]) {
+					int to = edge.first;
+					Color col = edge.second;
 
-				if (col == RED || col == BLACK) {
-					prob[j][RED] = max(prob[to][RED] * (1 - p) + prob[to][GREEN] * p, prob[j][RED]);
-				}
-				if (col == GREEN || col == BLACK) {
-					prob[j][GREEN] = max(prob[to][GREEN] * (1 - p) + prob[to][RED] * p, prob[j][GREEN]);
+					if (col == RED || col == BLACK) {
+						prob[j][RED] = max(prob[to][RED] * (1 - p) + prob[to][GREEN] * p, prob[j][RED]);
+					}
+					if (col == GREEN || col == BLACK) {
+						prob[j][GREEN] = max(prob[to][GREEN] * (1 - p) + prob[to][RED] * p, prob[j][GREEN]);
+					}
 				}
 			}
 		}
+		res = prob[s][initState];
+		if (abs(res - ores) < eps) break;
+		ores = res;
+		times *= 2;
 	}
 
+	// output the result
 	ofstream out("out.txt");
 	out << "Probability matrix:\n";
 	for (int i = 0; i < nV; ++i) {
 		out << i + 1 << ". Red: " << prob[i][RED] << ". Green: " << prob[i][GREEN] << ".\n";
 	}
-	out << "Resulting probability: " << prob[s][initState]<<"\n";
+	out << "Resulting probability: " << res <<"\n";
 	out.close();
 
 	return 0;
